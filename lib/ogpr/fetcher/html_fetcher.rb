@@ -2,7 +2,6 @@
 
 require 'uri'
 require 'http'
-require 'kconv'
 
 module Ogpr
   class Fetcher
@@ -17,7 +16,7 @@ module Ogpr
         acceptable_content!(head.headers[:content_type])
 
         res = send_request(:get, @uri, headers)
-        Kconv.toutf8(res.to_str)
+        res.encode("UTF-8", invalid: :replace, undef: :replace)
       rescue => e
         raise e
       end
